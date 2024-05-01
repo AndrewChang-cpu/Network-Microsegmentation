@@ -3,6 +3,7 @@ const util = require('util');
 const execAsync = util.promisify(require('child_process').exec);
 
 exports.addNetworkPolicy = (req, res) => {
+    const { device, ingress, egress } = req.body;
 
     try {
             // Construct NetworkPolicy YAML
@@ -174,6 +175,8 @@ function parseNetworkPolicies(stdout) {
 
 
 exports.deleteNetworkPolicy = (req, res) => {
+    const { policyName } = req.body;
+
     try {
             // Execute kubectl command to delete the NetworkPolicy
             exec(`kubectl delete networkpolicy ${policyName} --namespace=default`, (error, stdout, stderr) => {
